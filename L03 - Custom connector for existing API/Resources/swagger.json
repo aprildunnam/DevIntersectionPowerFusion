@@ -1,0 +1,250 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "ContosoBadges",
+    "version": "1.0"
+  },
+  "paths": {
+    "/AddCredit": {
+      "post": {
+        "tags": [
+          "AddCredit"
+        ],
+        "summary": "Add Credit",
+        "description": "Add Credit",
+        "operationId": "AddCredit",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/AddCreditRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Recipient"
+            }
+          }
+        }
+      }
+    },
+    "/GetRecipient": {
+      "get": {
+        "tags": [
+          "GetRecipient"
+        ],
+        "summary": "Get Recipient",
+        "description": "Get Recipient",
+        "operationId": "GetRecipient",
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "id",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Recipient"
+            }
+          }
+        }
+      }
+    },
+    "/ListBadges": {
+      "get": {
+        "tags": [
+          "ListBadges"
+        ],
+        "summary": "List Badges",
+        "description": "List Badges",
+        "operationId": "ListBadges",
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "fromPoints",
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "query",
+            "name": "toPoints",
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/BadgeList"
+            }
+          }
+        }
+      }
+    },
+    "/ListRecipients": {
+      "get": {
+        "tags": [
+          "ListRecipients"
+        ],
+        "summary": "List Recipients",
+        "description": "ListRecipients",
+        "operationId": "ListRecipients",
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "fromPoints",
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "query",
+            "name": "toPoints",
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/RecipientList"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "AddCreditRequest": {
+      "type": "object",
+      "properties": {
+        "recipientId": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "points": {
+          "format": "int32",
+          "type": "integer"
+        }
+      }
+    },
+    "Badge": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "thumbnailUrl": {
+          "type": "string"
+        },
+        "requiredPoints": {
+          "format": "int32",
+          "type": "integer"
+        }
+      }
+    },
+    "BadgeList": {
+      "type": "object",
+      "properties": {
+        "badges": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Badge"
+          }
+        }
+      }
+    },
+    "Recipient": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "badges": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RecipientBadge"
+          }
+        },
+        "currentBadge": {
+          "$ref": "#/definitions/RecipientBadge"
+        },
+        "currentPoints": {
+          "format": "int32",
+          "type": "integer"
+        }
+      }
+    },
+    "RecipientBadge": {
+      "type": "object",
+      "properties": {
+        "badge": {
+          "$ref": "#/definitions/Badge"
+        },
+        "receivedDate": {
+          "format": "date-time",
+          "type": "string"
+        }
+      }
+    },
+    "RecipientList": {
+      "type": "object",
+      "properties": {
+        "recipients": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Recipient"
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions": {
+    "apiKey": {
+      "type": "apiKey",
+      "name": "X-API-KEY",
+      "in": "header"
+    }
+  }
+}
